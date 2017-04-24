@@ -1,0 +1,10 @@
+pwr_cnsmp <-read.table("household_power_consumption.txt", sep=";", header=TRUE)
+pwr_cnsmp$Date <- as.Date(pwr_cnsmp$Date, "%d/%m/%Y")
+pwr_cnsmp$time <- paste(pwr_cnsmp$Date, pwr_cnsmp$Time)
+pwr_cnsmp$time <- strptime(pwr_cnsmp$time, "%Y-%m-%d %H:%M:%S")
+pwr_cnsmp_fltr <- pwr_cnsmp[pwr_cnsmp$Date == "2007-2-2"|pwr_cnsmp$Date == "2007-2-1",]
+pwr_cnsmp_fltr$Global_active_power <- as.numeric(as.character(pwr_cnsmp_fltr$Global_active_power))
+png(filename = "Plot2.png")
+with(pwr_cnsmp_fltr, plot(time, Global_active_power,type="n",ylab = "Global Active Power (kilowatts)",xlab =""))
+with(pwr_cnsmp_fltr,lines(time,Global_active_power))
+dev.off()
